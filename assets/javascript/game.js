@@ -36,9 +36,6 @@ function pickPlayer() {
 
 
 
-
-
-
 //////////////////////////////////////////
 //event listener for letters
 
@@ -49,13 +46,20 @@ document.onkeyup = function (event) {
     console.log(hangman.userInput);
 
 
-
-
-
 //determine if letter input is valid
 
-var a = hangman.userInput.indexOf(hangman.remainingLetters);
-console.log(a);
+
+function isValid(a) {
+var a = hangman.remainingLetters.indexOf(hangman.userInput,0);
+console.log("is valid returns" + a);
+return a;
+}
+
+if (isValid >= 0) {
+    console.log("valid")
+} else {
+    console.log("invalid")
+}
 
 };
 //////////////////////
