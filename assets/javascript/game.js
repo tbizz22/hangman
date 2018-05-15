@@ -42,24 +42,24 @@ function pickPlayer() {
 document.onkeyup = function (event) {
 
     // Determines which key was pressed.
-    hangman.userInput = event.key;
+    hangman.userInput = event.key.toLowerCase;
     console.log(hangman.userInput);
 
 
 //determine if letter input is valid
 
 
-function isValid(a) {
-var a = hangman.remainingLetters.indexOf(hangman.userInput,0);
-console.log("is valid returns" + a);
-return a;
-}
+    function isValid() {
+    var a = hangman.remainingLetters.indexOf(hangman.userInput,0);
+    console.log("is valid returns" + a);
+    return a;
+    }
 
-if (isValid >= 0) {
-    console.log("valid")
-} else {
-    console.log("invalid")
-}
+    if (isValid() >= 0) {
+        console.log("valid")
+    } else {
+        console.log("invalid")
+    }
 
 };
 //////////////////////
@@ -67,7 +67,7 @@ if (isValid >= 0) {
 
 
 
-//remove letter from remaining choices
+//remove letter from remaining letters
 
 
 
@@ -87,3 +87,10 @@ if (isValid >= 0) {
 
 // if total count is greater than max number end the game
 //
+
+
+
+
+
+
+// look at drink list exercise to see how to add ui elements on the page when drawing the values. html5 shows how to add the classes
