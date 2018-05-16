@@ -26,13 +26,45 @@ var hangman = {
 }
 
 
+//get length of player name and draw spaces on page
+
 // pull player name from array 
 function pickPlayer() {
     hangman.currentWord = hangman.choices[Math.floor(Math.random() * hangman.choices.length)];
     console.log(hangman.currentWord);
 }
 
-//get length of player name and draw spaces on page
+
+//Add the current player spaces to the view
+function drawPlayer() {
+    var targetDiv = document.getElementById("current-word");
+
+    for (var i = 0; i < split.length; i++) {
+        var newDiv = document.createElement("div");
+        newDiv.setAttribute("ID",split[i]);
+        newDiv.innerHTML = split[i];
+        targetDiv.appendChild(newDiv);
+    };
+};
+
+
+//takes player and places into array
+pickPlayer();
+    var split = hangman.currentWord.split("");
+    // console.log(split);
+
+//Start the round
+drawPlayer();
+
+
+
+
+
+//display number of correct guess remaining
+
+//display choices to pick from remaining
+
+//display incorrectly guessed letters
 
 
 
@@ -42,18 +74,8 @@ function pickPlayer() {
 document.onkeyup = function (event) {
 
     // Determines which key was pressed.
-    hangman.userInput = event.key.toLowerCase;
+    hangman.userInput = event.key;
     console.log(hangman.userInput);
-
-
-//determine if letter input is valid
-
-
-    function isValid() {
-    var a = hangman.remainingLetters.indexOf(hangman.userInput,0);
-    console.log("is valid returns" + a);
-    return a;
-    }
 
     if (isValid() >= 0) {
         console.log("valid")
@@ -63,11 +85,33 @@ document.onkeyup = function (event) {
 
 };
 //////////////////////
+
+//determine if letter input is valid
+function isValid() {
+    var a = hangman.remainingLetters.indexOf(hangman.userInput,0);
+    console.log("is valid returns" + a);
+    return a;
+    };
+
 //determine if letter input is in current word
+function isLetterInWord() {
+    var a = hangman.currentWord.indexOf(hangman.userInput,0);
+    return a;
+};
+
 
 
 
 //remove letter from remaining letters
+
+function removeRemaining(array, element) {
+    const index = array.indexOf(element);
+    array.splice(index,1);
+}
+
+
+
+if ()
 
 
 
