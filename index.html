@@ -7,7 +7,8 @@
     <title>NJ's Hangman</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Added a link to Bootstrap-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/darklytheme.css">
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css" />
     
 
@@ -15,25 +16,29 @@
 </head>
 
 <body>
-    <div class="container">
-        <div id="head">
-            <h1>NJ's Hangman Hangout</h1>
-        </div>
-        <br>
-        <div id="current-word">
-        </div>
-        <br>
-        <div id="incorrect-guesses">
-        </div>
-        <br>
-        <div id="lives">
-        </div>
-        <br>
-        <div id="remaining-choices">
-        </div>
-        <br>
+    <div class="container-fluid">
+            <div id="head" class="jumbotron text-center">
+                <h1>NJ's Hangman Hangout</h1>
+            </div>
+            <br>
+            <div id="current-word" class="float-left">
+            </div>
+            <br>
+        <footer class="page-footer footer container-fluid text-center">
+            <div class="row">
+                <div class="col-md-4">Incorrect Guesses: 
+                    <div id="incorrect-guesses" class="col-md-4"></div>
+                </div>
+                <div class="col-md-4">Lives Remaining: 
+                    <div id="lives"></div>
+                </div>              
+                <div class=class="col-md-4"></div> Remaining Choices: 
+                    <div id="remaining-choices"></div>
+                </div>
+            </div>
+        </footer>
     </div>
-    <script src="./assets/javascript/game.js"></script>
+<script src="./assets/javascript/game.js"></script>
 </body>
 
 </html>

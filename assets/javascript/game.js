@@ -23,8 +23,9 @@ var hangman = {
     correctLetters: [],
     remainingLetters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
     maxWrongGuess: 6,
-    lives: 0
-}
+    lives: 0,
+    livesRemain:6
+};
 
 
 //get length of player name and draw spaces on page
@@ -33,7 +34,7 @@ var hangman = {
 function pickPlayer() {
     hangman.currentWord = hangman.choices[Math.floor(Math.random() * hangman.choices.length)];
     console.log(hangman.currentWord);
-}
+};
 
 
 //Add the current player spaces to the view
@@ -56,6 +57,7 @@ pickPlayer();
 
 //Start the round
 drawPlayer();
+showStats();
 
 
 //////////////////////////////////////////
@@ -87,7 +89,7 @@ document.onkeyup = function (event) {
         takeLives();
     };
     showStats();
-    //checkScore();
+    checkScore();
 };
 
 
@@ -160,8 +162,8 @@ hangman.lives++;
 
 //Update UI with Wrong Guess
 function updateLives() {
-    var livesRemain = hangman.maxWrongGuess-hangman.lives;
-    document.getElementById("lives").innerHTML = livesRemain; 
+    hangman.livesRemain = hangman.maxWrongGuess-hangman.lives;
+    document.getElementById("lives").innerHTML = hangman.livesRemain; 
 };
 
 
@@ -170,8 +172,9 @@ function updateLives() {
 //
 
 function checkScore() {
-    if (livesRemain === 0) {
+    if (hangman.livesRemain === 0) {
         //end the game
+        updateLives();
         alert("game over dude");
     } else {
         //nothing happening here
