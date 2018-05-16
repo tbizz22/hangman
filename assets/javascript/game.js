@@ -11,18 +11,18 @@ var gamesPlayed = 1;
 var hangman = {
     //array of last player names to chose from
     choices: [
-        "Scott Stevens",
-        "Ken Daneyko",
-        "Martin Brodeur",
-        "Scott Niedermeyer",
-        "Patrick Elias"
+        "scott stevens",
+        "ken daneyko",
+        "martin brodeur",
+        "scott niedermeyer",
+        "patrick elias"
     ],
     currentWord: "",
     userInput: "",
     incorrectLetters: [],
     correctLetters: [],
     remainingLetters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
-    wrongGuessesRemaining: "6"
+    maxWrongGuess: "6"
 }
 
 
@@ -78,7 +78,17 @@ document.onkeyup = function (event) {
     console.log(hangman.userInput);
 
     if (isValid() >= 0) {
-        console.log("valid")
+        console.log("valid") //comment out later, obvi
+        removeRemaining(hangman.remainingLetters,hangman.userInput);
+        
+        if (isLetterInWord() >=0) {
+            console.log("letter in word");
+            showLetters();
+            //for loop to show all letters in ui -> make reveal
+       
+        } else {
+            missedLetters();
+        }
     } else {
         console.log("invalid")
     }
@@ -107,23 +117,33 @@ function isLetterInWord() {
 function removeRemaining(array, element) {
     const index = array.indexOf(element);
     array.splice(index,1);
-}
+    //need to update UI code here
+};
 
 
 
-if ()
-
-
-
-//if correct 
 //fill in letter in ui in correct location
+//!!!! can not get this working for multiple letters 
+function showLetters() {
+    var targetDiv = document.getElementById(hangman.userInput);
+    targetDiv.setAttribute("ID", hangman.userInput + "-reveal"); 
+};
 
 
 
 
 
-//if wrong
 //add letter to missed letter array
+function missedLetters() {
+    hangman.incorrectLetters.push(hangman.userInput);
+    updateMissedLetters();
+};
+
+function updateMissedLetters() {
+    var stringwrong = hangman.incorrectLetters.toString();
+    document.getElementById("incorrect-guesses").innerHTML = stringwrong;      
+};
+
 //increment incorrect guess
 
 
@@ -137,4 +157,6 @@ if ()
 
 
 
-// look at drink list exercise to see how to add ui elements on the page when drawing the values. html5 shows how to add the classes
+
+
+
