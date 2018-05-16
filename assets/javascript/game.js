@@ -22,7 +22,8 @@ var hangman = {
     incorrectLetters: [],
     correctLetters: [],
     remainingLetters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
-    maxWrongGuess: "6"
+    maxWrongGuess: 6,
+    lives: 0
 }
 
 
@@ -57,17 +58,6 @@ pickPlayer();
 drawPlayer();
 
 
-
-
-
-//display number of correct guess remaining
-
-//display choices to pick from remaining
-
-//display incorrectly guessed letters
-
-
-
 //////////////////////////////////////////
 //event listener for letters
 
@@ -77,23 +67,32 @@ document.onkeyup = function (event) {
     hangman.userInput = event.key;
     console.log(hangman.userInput);
 
+    //is this a letter in the alphabet
     if (isValid() >= 0) {
         console.log("valid") //comment out later, obvi
         removeRemaining(hangman.remainingLetters,hangman.userInput);
         
+        //is this a letter in the current word
         if (isLetterInWord() >=0) {
             console.log("letter in word");
             showLetters();
-            //for loop to show all letters in ui -> make reveal
+            //todo: for loop to show all letters in ui -> make reveal???
        
         } else {
             missedLetters();
-        }
+            takeLives();
+        };
     } else {
-        console.log("invalid")
-    }
-
+        console.log("invalid");
+        takeLives();
+    };
+    showStats();
+    //checkScore();
 };
+
+
+
+
 //////////////////////
 
 //determine if letter input is valid
@@ -118,6 +117,7 @@ function removeRemaining(array, element) {
     const index = array.indexOf(element);
     array.splice(index,1);
     //need to update UI code here
+    updateRemainingLetters();
 };
 
 
@@ -136,27 +136,55 @@ function showLetters() {
 //add letter to missed letter array
 function missedLetters() {
     hangman.incorrectLetters.push(hangman.userInput);
-    updateMissedLetters();
 };
 
+// Update UI
 function updateMissedLetters() {
     var stringwrong = hangman.incorrectLetters.toString();
     document.getElementById("incorrect-guesses").innerHTML = stringwrong;      
 };
 
-//increment incorrect guess
 
+//show remaining choices to user
+// Update UI
+function updateRemainingLetters() {
+    var stringRemain = hangman.remainingLetters.toString();
+    document.getElementById("remaining-choices").innerHTML = stringRemain;      
+};
+
+
+//increment incorrect guess 
+function takeLives() {
+hangman.lives++;
+};
+
+//Update UI with Wrong Guess
+function updateLives() {
+    var livesRemain = hangman.maxWrongGuess-hangman.lives;
+    document.getElementById("lives").innerHTML = livesRemain; 
+};
 
 
 
 // if total count is greater than max number end the game
 //
 
+function checkScore() {
+    if (livesRemain === 0) {
+        //end the game
+        alert("game over dude");
+    } else {
+        //nothing happening here
+    }
+};
 
 
 
-
-
+function showStats() {
+    updateLives();
+    updateRemainingLetters();
+    updateMissedLetters();
+};
 
 
 
