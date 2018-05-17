@@ -1,8 +1,9 @@
 // global Variables
 
-var wins = 0;
-var losses = 0;
-var gamesPlayed = 1;
+//not being used currently
+// var wins = 0;
+// var losses = 0;
+// var gamesPlayed = 1;
 
 
 
@@ -19,6 +20,7 @@ var hangman = {
     ],
     currentWord: "",
     userInput: "",
+    letterLocations: [],
     incorrectLetters: [],
     correctLetters: [],
     remainingLetters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
@@ -41,10 +43,11 @@ function pickPlayer() {
 function drawPlayer() {
     var targetDiv = document.getElementById("current-word");
 
-    for (var i = 0; i < split.length; i++) {
+    for (var i = 0; i < currentWordToArray.length; i++) {
         var newDiv = document.createElement("div");
-        newDiv.setAttribute("ID",split[i]);
-        newDiv.innerHTML = split[i];
+        newDiv.setAttribute("ID",i);
+        newDiv.setAttribute("Class","letter");
+        //newDiv.innerHTML = split[i];
         targetDiv.appendChild(newDiv);
     };
 };
@@ -52,7 +55,7 @@ function drawPlayer() {
 
 //takes player and places into array
 pickPlayer();
-    var split = hangman.currentWord.split("");
+    var currentWordToArray = hangman.currentWord.split("");
     // console.log(split);
 
 //Start the round
@@ -73,24 +76,25 @@ document.onkeyup = function (event) {
     if (isValid() >= 0) {
         console.log("valid") //comment out later, obvi
         removeRemaining(hangman.remainingLetters,hangman.userInput);
+        isLetterInWordArray();
         
         //is this a letter in the current word
-        if (isLetterInWord() >=0) {
+        if (hangman.letterLocations.length>=0) {
             console.log("letter in word");
             showLetters();
-            //todo: for loop to show all letters in ui -> make reveal???
+            
        
         } else {
             missedLetters();
             takeLives();
-        };
+        }
     } else {
         console.log("invalid");
         takeLives();
-    };
+    }
     showStats();
     checkScore();
-};
+}
 
 
 
@@ -108,10 +112,16 @@ function isValid() {
 function isLetterInWord() {
     var a = hangman.currentWord.indexOf(hangman.userInput,0);
     return a;
-};
+}
 
 
-
+function isLetterInWordArray() {
+    for (var i = 0; i< currentWordToArray.length; i++) {
+       if (currentWordToArray[i] === hangman.userInput) {
+        hangman.letterLocations.push(i); 
+       }         
+    }
+}
 
 //remove letter from remaining letters
 
@@ -120,31 +130,34 @@ function removeRemaining(array, element) {
     array.splice(index,1);
     //need to update UI code here
     updateRemainingLetters();
-};
-
+}
 
 
 //fill in letter in ui in correct location
 //!!!! can not get this working for multiple letters 
 function showLetters() {
-    var targetDiv = document.getElementById(hangman.userInput);
-    targetDiv.setAttribute("ID", hangman.userInput + "-reveal"); 
-};
+    for (var i = 0; i< hangman.letterLocations; i++) {
+        var targetDiv = document.getElementById(hangman.letterLocations[i])
+        targetDiv.innerHTML(hangman.userInput);
+    }
 
 
-
+//     var targetDiv = document.getElementById(hangman.userInput);
+//     targetDiv.setAttribute("ID", hangman.userInput + "-reveal"); 
+// 
+}
 
 
 //add letter to missed letter array
 function missedLetters() {
     hangman.incorrectLetters.push(hangman.userInput);
-};
+}
 
 // Update UI
 function updateMissedLetters() {
     var stringwrong = hangman.incorrectLetters.toString();
     document.getElementById("incorrect-guesses").innerHTML = stringwrong;      
-};
+}
 
 
 //show remaining choices to user
@@ -152,19 +165,19 @@ function updateMissedLetters() {
 function updateRemainingLetters() {
     var stringRemain = hangman.remainingLetters.toString();
     document.getElementById("remaining-choices").innerHTML = stringRemain;      
-};
+}
 
 
 //increment incorrect guess 
 function takeLives() {
 hangman.lives++;
-};
+}
 
 //Update UI with Wrong Guess
 function updateLives() {
     hangman.livesRemain = hangman.maxWrongGuess-hangman.lives;
     document.getElementById("lives").innerHTML = hangman.livesRemain; 
-};
+}
 
 
 
@@ -179,15 +192,14 @@ function checkScore() {
     } else {
         //nothing happening here
     }
-};
+}
 
-
-
+//updates footer status bar
 function showStats() {
     updateLives();
     updateRemainingLetters();
     updateMissedLetters();
-};
+}
 
 
 
