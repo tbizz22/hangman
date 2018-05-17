@@ -26,7 +26,9 @@ var hangman = {
     remainingLetters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
     maxWrongGuess: 6,
     lives: 0,
-    livesRemain:6
+    livesRemain: 6,
+    correctLettersGuessed: [],
+    distinctLettersinCurrentWord: []
 };
 
 
@@ -40,23 +42,31 @@ function pickPlayer() {
 
 
 //Add the current player spaces to the view
+//for statment evaluates if the letter in the array is a space. If it is it applies the appropriate class
+
 function drawPlayer() {
     var targetDiv = document.getElementById("current-word");
 
     for (var i = 0; i < currentWordToArray.length; i++) {
-        var newDiv = document.createElement("div");
-        newDiv.setAttribute("ID",i);
-        newDiv.setAttribute("Class","letter");
-        //newDiv.innerHTML = split[i];
-        targetDiv.appendChild(newDiv);
+        if (currentWordToArray[i] === " ") {
+            var newDiv = document.createElement("div");
+            newDiv.setAttribute("ID", i);
+            newDiv.setAttribute("Class", "space");
+            targetDiv.appendChild(newDiv);
+        } else {
+            var newDiv = document.createElement("div");
+            newDiv.setAttribute("ID", i);
+            newDiv.setAttribute("Class", "letter");
+            targetDiv.appendChild(newDiv);
+        }
     };
 };
 
 
 //takes player and places into array
 pickPlayer();
-    var currentWordToArray = hangman.currentWord.split("");
-    // console.log(split);
+var currentWordToArray = hangman.currentWord.split("");
+// console.log(split);
 
 //Start the round
 drawPlayer();
@@ -75,21 +85,22 @@ document.onkeyup = function (event) {
     //is this a letter in the alphabet
     if (isValid() >= 0) {
         console.log("valid") //comment out later, obvi
-        removeRemaining(hangman.remainingLetters,hangman.userInput);
+        removeRemaining(hangman.remainingLetters, hangman.userInput);
         isLetterInWordArray();
-        
+
         //is this a letter in the current word
-        if (hangman.letterLocations.length>=0) {
+        if (hangman.letterLocations.length >= 0) {
             console.log("letter in word");
             showLetters();
-            
-       
+            isWinner();
+
+
         } else {
             missedLetters();
             takeLives();
         }
     } else {
-        console.log("invalid");
+        alert("You have to pick values from the alphabet or you have already guessed this letter.");
         takeLives();
     }
     showStats();
@@ -103,23 +114,25 @@ document.onkeyup = function (event) {
 
 //determine if letter input is valid
 function isValid() {
-    var a = hangman.remainingLetters.indexOf(hangman.userInput,0);
+    var a = hangman.remainingLetters.indexOf(hangman.userInput, 0);
     console.log("is valid returns" + a);
-    return a;
-    };
-
-//determine if letter input is in current word
-function isLetterInWord() {
-    var a = hangman.currentWord.indexOf(hangman.userInput,0);
     return a;
 }
 
 
+
 function isLetterInWordArray() {
-    for (var i = 0; i< currentWordToArray.length; i++) {
-       if (currentWordToArray[i] === hangman.userInput) {
-        hangman.letterLocations.push(i); 
-       }         
+    for (var i = 0; i < currentWordToArray.length; i++) {
+        if (currentWordToArray[i] === hangman.userInput) {
+            hangman.letterLocations.push(i);
+            hangman.correctLettersGuessed.push(i)
+        }
+    }
+}
+
+function isWinner() {
+    if (hangman.correctLettersGuessed.length + 1 === hangman.currentWord.length) {
+        alert("//end game ");
     }
 }
 
@@ -127,24 +140,20 @@ function isLetterInWordArray() {
 
 function removeRemaining(array, element) {
     const index = array.indexOf(element);
-    array.splice(index,1);
+    array.splice(index, 1);
     //need to update UI code here
     updateRemainingLetters();
 }
 
 
 //fill in letter in ui in correct location
-//!!!! can not get this working for multiple letters 
+
 function showLetters() {
-    for (var i = 0; i< hangman.letterLocations; i++) {
+    for (var i = 0; i < hangman.letterLocations.length; i++) {
         var targetDiv = document.getElementById(hangman.letterLocations[i])
-        targetDiv.innerHTML(hangman.userInput);
+        targetDiv.innerHTML = hangman.userInput;
     }
-
-
-//     var targetDiv = document.getElementById(hangman.userInput);
-//     targetDiv.setAttribute("ID", hangman.userInput + "-reveal"); 
-// 
+    hangman.letterLocations = [];
 }
 
 
@@ -156,7 +165,7 @@ function missedLetters() {
 // Update UI
 function updateMissedLetters() {
     var stringwrong = hangman.incorrectLetters.toString();
-    document.getElementById("incorrect-guesses").innerHTML = stringwrong;      
+    document.getElementById("incorrect-guesses").innerHTML = stringwrong;
 }
 
 
@@ -164,25 +173,24 @@ function updateMissedLetters() {
 // Update UI
 function updateRemainingLetters() {
     var stringRemain = hangman.remainingLetters.toString();
-    document.getElementById("remaining-choices").innerHTML = stringRemain;      
+    document.getElementById("remaining-choices").innerHTML = stringRemain;
 }
 
 
 //increment incorrect guess 
 function takeLives() {
-hangman.lives++;
+    hangman.lives++;
 }
 
 //Update UI with Wrong Guess
 function updateLives() {
-    hangman.livesRemain = hangman.maxWrongGuess-hangman.lives;
-    document.getElementById("lives").innerHTML = hangman.livesRemain; 
+    hangman.livesRemain = hangman.maxWrongGuess - hangman.lives;
+    document.getElementById("lives").innerHTML = hangman.livesRemain;
 }
 
 
 
 // if total count is greater than max number end the game
-//
 
 function checkScore() {
     if (hangman.livesRemain === 0) {
@@ -202,4 +210,7 @@ function showStats() {
 }
 
 
+function aWinnerIsYou() {
+    var currentWordToArray = hangman.currentWord.split("");
 
+}

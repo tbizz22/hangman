@@ -20,3 +20,9 @@
     bottom: 0;
     height: 10%;
 }
+
+.space {
+    display: inline;
+    padding: 10px;    
+    margin: 10px;
+}
