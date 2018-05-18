@@ -1,18 +1,6 @@
-Open Issues:
-
-Only highlighting first letter
-not handling upper/lower
-UI elements not showing appropriately
-Kill the console logs 
-how to handle spaces in UI
+This was a fun homework. Unfortunately due to having to travel out of town it remains unfinished. While I feel comfortable with the material and what I would need to do to get this complete, I unfortunately needed a bit more time. If given the time I would obviously spend some time updating the UI and adding in a few more features, however the core components of a hangman game are all here. There are a few lingering gremlins that I dont have the time to debug through. 
 
 
 
 
-
-
-Enhancements 
-Better UI
-make text not selectable(kind of defeats the purpose)
-have player only guess last name
-multiple rounds of guessing
+I have a known issue in the footer of the page. The incorrect guess array is not displaying properly

@@ -21,7 +21,7 @@ var hangman = {
     currentWord: "",
     userInput: "",
     letterLocations: [],
-    incorrectLetters: [],
+    incorrectLetters: [2],
     correctLetters: [],
     remainingLetters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
     maxWrongGuess: 6,
@@ -37,6 +37,7 @@ var hangman = {
 // pull player name from array 
 function pickPlayer() {
     hangman.currentWord = hangman.choices[Math.floor(Math.random() * hangman.choices.length)];
+    //leaving this to display the answer
     console.log(hangman.currentWord);
 };
 
@@ -80,17 +81,17 @@ document.onkeyup = function (event) {
 
     // Determines which key was pressed.
     hangman.userInput = event.key;
-    console.log(hangman.userInput);
+    //console.log(hangman.userInput);
 
     //is this a letter in the alphabet
     if (isValid() >= 0) {
-        console.log("valid") //comment out later, obvi
+        //console.log("valid") //comment out later, obvi
         removeRemaining(hangman.remainingLetters, hangman.userInput);
         isLetterInWordArray();
 
         //is this a letter in the current word
         if (hangman.letterLocations.length >= 0) {
-            console.log("letter in word");
+           // console.log("letter in word");
             showLetters();
             isWinner();
 
@@ -101,7 +102,9 @@ document.onkeyup = function (event) {
         }
     } else {
         alert("You have to pick values from the alphabet or you have already guessed this letter.");
-        takeLives();
+        
+        //Enable this for hard mode, lol
+        //takeLives();
     }
     showStats();
     checkScore();
@@ -159,7 +162,7 @@ function showLetters() {
 
 //add letter to missed letter array
 function missedLetters() {
-    hangman.incorrectLetters.push(hangman.userInput);
+    hangman.incorrectLetters.push(hangman.userInput);   
 }
 
 // Update UI
@@ -210,7 +213,4 @@ function showStats() {
 }
 
 
-function aWinnerIsYou() {
-    var currentWordToArray = hangman.currentWord.split("");
 
-}
